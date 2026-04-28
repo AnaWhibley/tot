@@ -1,0 +1,112 @@
+/* ─── App shell ─── */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Guide selector tabs */
+.app-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.app-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--color-text-secondary, #52596a);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.app-tab:hover {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.app-tab--active {
+  background: var(--color-surface, #fff);
+  color: var(--color-text-primary, #0d0f12);
+  border-color: var(--color-border, rgba(0, 0, 0, 0.08));
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.app-tab__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 0.625rem;
+  font-weight: 700;
+  background: var(--color-success, #16a34a);
+  color: #fff;
+}
+
+/* Container that gives the guide a fixed height */
+.app-guide-shell {
+  border-radius: var(--radius-xl, 20px);
+  overflow: hidden;
+}
+
+/* Completion banner */
+.app-complete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 12px;
+  background: var(--color-surface, #fff);
+  text-align: center;
+  padding: 48px;
+}
+
+.app-complete__icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-success, #16a34a);
+  color: #fff;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-complete h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 650;
+  color: var(--color-text-primary, #0d0f12);
+}
+
+.app-complete p {
+  margin: 0;
+  color: var(--color-text-secondary, #52596a);
+}
+
+.app-complete__restart {
+  margin-top: 8px;
+  padding: 9px 20px;
+  border-radius: 9px;
+  background: transparent;
+  border: 1px solid var(--color-border, rgba(0, 0, 0, 0.12));
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary, #52596a);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.app-complete__restart:hover {
+  background: var(--color-surface-subtle, #f8f9fb);
+}
