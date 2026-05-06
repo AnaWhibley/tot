@@ -10,6 +10,7 @@ const ENTER_MS = 260;
 interface UserGuideProps {
   steps: GuideConfig;
   onComplete?: () => void;
+  initialStep?: number;
 }
 
 const BackArrow: React.FC = () => (
@@ -24,9 +25,9 @@ const NextArrow: React.FC = () => (
   </svg>
 );
 
-const UserGuide: React.FC<UserGuideProps> = ({ steps, onComplete }) => {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [displayedStep, setDisplayedStep] = useState(0);
+const UserGuide: React.FC<UserGuideProps> = ({ steps, onComplete, initialStep = 0 }) => {
+  const [currentStep, setCurrentStep] = useState(initialStep);
+  const [displayedStep, setDisplayedStep] = useState(initialStep);
   const [phase, setPhase] = useState<AnimPhase>('idle');
   const [direction, setDirection] = useState<AnimDirection>('forward');
 

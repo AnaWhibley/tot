@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import styles from './GuidePage.module.css';
 import UserGuide from '../components/UserGuide';
 import type { GuideConfig } from '../components/UserGuide/types';
@@ -26,6 +27,11 @@ const GuidePage: React.FC<GuidePageProps> = ({
   onRestart,
 }) => {
   const [key, setKey] = useState(0);
+  const [searchParams] = useSearchParams();
+  const initialStep = Math.max(0, Math.min(
+    parseInt(searchParams.get('step') ?? '0', 10) || 0,
+    steps.length - 1,
+  ));
 
   const handleRestart = () => {
     setKey(k => k + 1);
@@ -46,7 +52,7 @@ const GuidePage: React.FC<GuidePageProps> = ({
           </button>
         </div>
       ) : (
-        <UserGuide key={key} steps={steps} onComplete={onComplete} />
+        <UserGuide key={key} steps={steps} onComplete={onComplete} initialStep={initialStep} />
       )}
     </div>
   );

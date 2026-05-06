@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import styles from './App.module.css';
 import NavBar from './components/NavBar/NavBar';
 import type { NavGroup } from './components/NavBar/NavBar';
-import Home from './pages/Home';
+import Launchpad from './pages/Launchpad';
 import GuidePage from './pages/GuidePage';
 import { guideA } from './guides/guideA';
 import { guideB } from './guides/guideB';
@@ -76,7 +76,7 @@ function App() {
       <div className={styles.content}>
         <Routes>
           <Route path="/" element={
-            <Home completedA={completedA} completedB={completedB} />
+            <Launchpad completedA={completedA} completedB={completedB} />
           } />
           <Route path="/account" element={
             <GuidePage

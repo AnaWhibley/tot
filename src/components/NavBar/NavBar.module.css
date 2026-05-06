@@ -163,20 +163,19 @@
 }
 
 
-/* ─── Group body collapse (CSS grid trick) ─── */
+/* ─── Group body collapse ─── */
 
 .groupBody {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.26s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .groupBodyOpen {
-  grid-template-rows: 1fr;
+  max-height: 480px;
 }
 
 .groupInner {
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 2px;
