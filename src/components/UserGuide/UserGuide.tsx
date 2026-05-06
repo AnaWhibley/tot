@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
-import './UserGuide.css';
+import styles from './UserGuide.module.css';
 import StepContent from './StepContent';
 import ProgressWrapper from './ProgressWrapper';
 import type { AnimDirection, AnimPhase, GuideConfig } from './types';
@@ -30,7 +30,6 @@ const UserGuide: React.FC<UserGuideProps> = ({ steps, onComplete }) => {
   const [phase, setPhase] = useState<AnimPhase>('idle');
   const [direction, setDirection] = useState<AnimDirection>('forward');
 
-  // Guard against rapid clicks during animation
   const animating = useRef(false);
 
   const navigate = useCallback(
@@ -73,12 +72,12 @@ const UserGuide: React.FC<UserGuideProps> = ({ steps, onComplete }) => {
   const isLast = currentStep === steps.length - 1;
 
   return (
-    <div className="ug-root">
-      <div className="ug-body">
+    <div className={styles.root}>
+      <div className={styles.body}>
         <StepContent step={steps[displayedStep]} phase={phase} direction={direction}>
-          <nav className="ug-nav" aria-label="Guide navigation">
+          <nav className={styles.nav} aria-label="Guide navigation">
             <button
-              className="ug-nav-btn ug-nav-btn--ghost"
+              className={`${styles.navBtn} ${styles.navBtnGhost}`}
               onClick={handleBack}
               disabled={isFirst}
               aria-label="Go to previous step"
@@ -87,12 +86,12 @@ const UserGuide: React.FC<UserGuideProps> = ({ steps, onComplete }) => {
               Back
             </button>
 
-            <span className="ug-step-counter" aria-live="polite" aria-atomic="true">
+            <span className={styles.stepCounter} aria-live="polite" aria-atomic="true">
               {currentStep + 1} / {steps.length}
             </span>
 
             <button
-              className="ug-nav-btn ug-nav-btn--primary"
+              className={`${styles.navBtn} ${styles.navBtnPrimary}`}
               onClick={handleNext}
               aria-label={isLast ? 'Finish guide' : 'Go to next step'}
             >
@@ -103,7 +102,7 @@ const UserGuide: React.FC<UserGuideProps> = ({ steps, onComplete }) => {
         </StepContent>
       </div>
 
-      <footer className="ug-footer">
+      <footer className={styles.footer}>
         <ProgressWrapper steps={steps} currentStep={currentStep} />
       </footer>
     </div>

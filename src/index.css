@@ -32,15 +32,11 @@ body {
   margin: 0;
   background: #e8ecf4;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 #root {
   width: 100%;
-  max-width: 960px;
-  padding: 24px;
+  min-height: 100vh;
 }
 
 /* Reset browser button defaults for our components */

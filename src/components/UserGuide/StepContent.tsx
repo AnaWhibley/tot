@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './UserGuide.module.css';
 import type { AnimDirection, AnimPhase, GuideStep } from './types';
 
 interface StepContentProps {
@@ -9,28 +10,31 @@ interface StepContentProps {
 }
 
 function visualClass(phase: AnimPhase): string {
-  if (phase === 'exiting') return 'ug-visual__inner ug-visual__inner--exiting';
-  if (phase === 'entering') return 'ug-visual__inner ug-visual__inner--entering';
-  return 'ug-visual__inner';
+  if (phase === 'exiting') return `${styles.visualInner} ${styles.visualInnerExiting}`;
+  if (phase === 'entering') return `${styles.visualInner} ${styles.visualInnerEntering}`;
+  return styles.visualInner;
 }
 
 function contentClass(phase: AnimPhase, direction: AnimDirection): string {
-  if (phase === 'idle') return 'ug-step-body';
-  return `ug-step-body ug-step-body--${phase}-${direction}`;
+  if (phase === 'idle') return styles.stepBody;
+  if (phase === 'exiting') {
+    return `${styles.stepBody} ${direction === 'forward' ? styles.stepBodyExitForward : styles.stepBodyExitBackward}`;
+  }
+  return `${styles.stepBody} ${direction === 'forward' ? styles.stepBodyEnterForward : styles.stepBodyEnterBackward}`;
 }
 
 const StepContent: React.FC<StepContentProps> = ({ step, phase, direction, children }) => (
   <>
-    <div className="ug-visual" aria-hidden="true">
+    <div className={styles.visual} aria-hidden="true">
       <div className={visualClass(phase)}>
         {step.visual}
       </div>
     </div>
 
-    <div className="ug-content">
+    <div className={styles.content}>
       <div className={contentClass(phase, direction)}>
-        <h2 className="ug-step-title">{step.title}</h2>
-        <div className="ug-step-description">{step.description}</div>
+        <h2 className={styles.stepTitle}>{step.title}</h2>
+        <div className={styles.stepDescription}>{step.description}</div>
       </div>
       {children}
     </div>

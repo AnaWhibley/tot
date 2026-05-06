@@ -7,12 +7,14 @@ export enum StepState {
 }
 
 export interface ProgressStep {
+  id: string;
   name: string;
   state: StepState;
 }
 
 export interface GuideStep {
   id: string;
+  name: string;
   title: string;
   description: ReactNode;
   visual: ReactNode;

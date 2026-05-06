@@ -1,9 +1,9 @@
 import React from 'react';
+import styles from './Progress.module.css';
 import { type ProgressStep, StepState } from '../UserGuide/types';
 
 interface ProgressProps {
   numbered?: boolean;
-  progressLabel?: string;
   steps: ProgressStep[];
 }
 
@@ -19,35 +19,25 @@ const CheckIcon: React.FC = () => (
   </svg>
 );
 
-const Progress: React.FC<ProgressProps> = ({
-  numbered = false,
-  progressLabel = 'Step',
-  steps,
-}) => (
-  <div className="ds-progress" role="progressbar" aria-label="Guide progress">
+const Progress: React.FC<ProgressProps> = ({ numbered = false, steps }) => (
+  <div className={styles.progress} role="progressbar" aria-label="Guide progress">
     {steps.map((step, index) => {
       const isComplete = step.state === StepState.Complete;
       const isInProgress = step.state === StepState.InProgress;
       const cls = [
-        'ds-progress__step',
-        isComplete && 'ds-progress__step--complete',
-        isInProgress && 'ds-progress__step--in-progress',
+        styles.step,
+        isComplete && styles.stepComplete,
+        isInProgress && styles.stepInProgress,
       ]
         .filter(Boolean)
         .join(' ');
 
       return (
-        <div key={step.name} className={cls}>
-          <div
-            className="ds-progress__node"
-            aria-label={`${progressLabel} ${index + 1}: ${step.state}`}
-          >
-            {numbered &&
-              (isComplete ? <CheckIcon /> : <span>{index + 1}</span>)}
+        <div key={step.id} className={cls}>
+          <div className={styles.node} aria-label={`${step.name}: ${step.state}`}>
+            {numbered && (isComplete ? <CheckIcon /> : <span>{index + 1}</span>)}
           </div>
-          <span className="ds-progress__label">
-            {progressLabel} {index + 1}
-          </span>
+          <span className={styles.label}>{step.name}</span>
         </div>
       );
     })}

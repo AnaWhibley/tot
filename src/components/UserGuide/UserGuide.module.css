@@ -2,18 +2,16 @@
    UserGuide — root layout
    ───────────────────────────────────────── */
 
-.ug-root {
+.root {
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
   background: var(--color-surface, #ffffff);
-  border-radius: var(--radius-xl, 20px);
-  box-shadow: 0 8px 48px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
 }
 
 /* Two-column grid: visual (left) + content (right) */
-.ug-body {
+.body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   flex: 1;
@@ -21,7 +19,7 @@
 }
 
 /* Full-width footer for progress bar */
-.ug-footer {
+.footer {
   padding: 20px 32px 24px;
   border-top: 1px solid var(--color-border, rgba(0, 0, 0, 0.07));
 }
@@ -31,7 +29,7 @@
    Visual panel (left column)
    ───────────────────────────────────────── */
 
-.ug-visual {
+.visual {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,33 +40,24 @@
   position: relative;
 }
 
-.ug-visual__inner {
+.visualInner {
   width: 100%;
   max-width: 260px;
-  /* default: fully visible, no transition applied when idle */
 }
 
-/* Exit: fade + subtle scale down */
-.ug-visual__inner--exiting {
+.visualInnerExiting {
   opacity: 0;
   transform: scale(0.95);
   transition: opacity 0.18s ease, transform 0.18s ease;
 }
 
-/* Enter: keyframe animation (no transition — avoids flash) */
-.ug-visual__inner--entering {
-  animation: ug-visual-enter 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+.visualInnerEntering {
+  animation: visualEnter 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-@keyframes ug-visual-enter {
-  from {
-    opacity: 0;
-    transform: scale(0.94);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+@keyframes visualEnter {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 
@@ -76,66 +65,48 @@
    Content panel (right column)
    ───────────────────────────────────────── */
 
-.ug-content {
+.content {
   display: flex;
   flex-direction: column;
   padding: 44px 48px 40px;
   overflow: hidden;
 }
 
-/* The animating body: title + description */
-.ug-step-body {
+.stepBody {
   flex: 1;
   display: flex;
   flex-direction: column;
   min-height: 0;
-  /* idle: no class modifier → no transition or animation */
 }
 
-/* Exit forward: slide left + fade */
-.ug-step-body--exiting-forward {
+.stepBodyExitForward {
   opacity: 0;
   transform: translateX(-24px);
   transition: opacity 0.18s ease, transform 0.18s ease;
 }
 
-/* Exit backward: slide right + fade */
-.ug-step-body--exiting-backward {
+.stepBodyExitBackward {
   opacity: 0;
   transform: translateX(24px);
   transition: opacity 0.18s ease, transform 0.18s ease;
 }
 
-/* Enter forward: slide in from the right */
-.ug-step-body--entering-forward {
-  animation: ug-enter-forward 0.26s cubic-bezier(0.22, 1, 0.36, 1) both;
+.stepBodyEnterForward {
+  animation: enterForward 0.26s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* Enter backward: slide in from the left */
-.ug-step-body--entering-backward {
-  animation: ug-enter-backward 0.26s cubic-bezier(0.22, 1, 0.36, 1) both;
+.stepBodyEnterBackward {
+  animation: enterBackward 0.26s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-@keyframes ug-enter-forward {
-  from {
-    opacity: 0;
-    transform: translateX(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+@keyframes enterForward {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
-@keyframes ug-enter-backward {
-  from {
-    opacity: 0;
-    transform: translateX(-24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+@keyframes enterBackward {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 
@@ -143,7 +114,7 @@
    Step text
    ───────────────────────────────────────── */
 
-.ug-step-title {
+.stepTitle {
   font-size: 1.5rem;
   font-weight: 650;
   line-height: 1.2;
@@ -152,7 +123,7 @@
   color: var(--color-text-primary, #0d0f12);
 }
 
-.ug-step-description {
+.stepDescription {
   font-size: 0.9375rem;
   line-height: 1.65;
   color: var(--color-text-secondary, #52596a);
@@ -160,36 +131,36 @@
   overflow-y: auto;
 }
 
-.ug-step-description p {
+.stepDescription p {
   margin: 0 0 14px;
 }
 
-.ug-step-description p:last-child {
+.stepDescription p:last-child {
   margin-bottom: 0;
 }
 
-.ug-step-description ul,
-.ug-step-description ol {
+.stepDescription ul,
+.stepDescription ol {
   margin: 4px 0 14px;
   padding-left: 20px;
 }
 
-.ug-step-description li {
+.stepDescription li {
   margin-bottom: 6px;
 }
 
-.ug-step-description strong {
+.stepDescription strong {
   font-weight: 600;
   color: var(--color-text-primary, #0d0f12);
 }
 
-.ug-step-description a {
+.stepDescription a {
   color: var(--color-primary, #2563eb);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
-.ug-step-description code {
+.stepDescription code {
   font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
   font-size: 0.875em;
   background: var(--color-surface-subtle, rgba(0, 0, 0, 0.05));
@@ -198,7 +169,12 @@
   color: var(--color-text-primary, #0d0f12);
 }
 
-.ug-step-description .ug-example-date {
+/*
+  Global class used by the markdown parser for ==highlight== spans.
+  Must remain a global selector so parseMarkdown.ts can reference it
+  without coupling to this module's generated class names.
+*/
+:global(.exampleDate) {
   display: inline-block;
   font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
   font-size: 0.875rem;
@@ -215,7 +191,7 @@
    Navigation bar
    ───────────────────────────────────────── */
 
-.ug-nav {
+.nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -225,7 +201,7 @@
   flex-shrink: 0;
 }
 
-.ug-nav-btn {
+.navBtn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -240,125 +216,41 @@
   line-height: 1;
 }
 
-.ug-nav-btn:focus-visible {
+.navBtn:focus-visible {
   outline: 2px solid var(--color-primary, #2563eb);
   outline-offset: 2px;
 }
 
-.ug-nav-btn:disabled {
+.navBtn:disabled {
   opacity: 0.32;
   cursor: not-allowed;
   pointer-events: none;
 }
 
-.ug-nav-btn--ghost {
+.navBtnGhost {
   background: transparent;
   color: var(--color-text-secondary, #52596a);
   border: 1px solid var(--color-border, rgba(0, 0, 0, 0.12));
 }
 
-.ug-nav-btn--ghost:not(:disabled):hover {
+.navBtnGhost:not(:disabled):hover {
   background: var(--color-surface-subtle, rgba(0, 0, 0, 0.04));
 }
 
-.ug-nav-btn--primary {
+.navBtnPrimary {
   background: var(--color-primary, #2563eb);
   color: #ffffff;
   box-shadow: 0 1px 3px rgba(37, 99, 235, 0.25);
 }
 
-.ug-nav-btn--primary:not(:disabled):hover {
+.navBtnPrimary:not(:disabled):hover {
   opacity: 0.88;
   box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
 }
 
-.ug-step-counter {
+.stepCounter {
   font-size: 0.8125rem;
   color: var(--color-text-muted, #a0a8b4);
   font-variant-numeric: tabular-nums;
   font-weight: 500;
-}
-
-
-/* ─────────────────────────────────────────
-   Design-system Progress mock
-   ───────────────────────────────────────── */
-
-.ds-progress {
-  display: flex;
-  align-items: flex-start;
-}
-
-.ds-progress__step {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-
-/* Connecting line between steps */
-.ds-progress__step:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  top: 13px;
-  left: calc(50% + 14px);
-  right: calc(-50% + 14px);
-  height: 2px;
-  background: var(--color-border, rgba(0, 0, 0, 0.1));
-  border-radius: 1px;
-  transition: background 0.35s ease;
-}
-
-.ds-progress__step--complete:not(:last-child)::after {
-  background: var(--color-primary, #2563eb);
-}
-
-.ds-progress__node {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.6875rem;
-  font-weight: 650;
-  background: var(--color-surface, #ffffff);
-  border: 2px solid var(--color-border, rgba(0, 0, 0, 0.15));
-  color: var(--color-text-muted, #a0a8b4);
-  z-index: 1;
-  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
-}
-
-.ds-progress__step--complete .ds-progress__node {
-  background: var(--color-primary, #2563eb);
-  border-color: var(--color-primary, #2563eb);
-  color: #ffffff;
-}
-
-.ds-progress__step--in-progress .ds-progress__node {
-  border-color: var(--color-primary, #2563eb);
-  color: var(--color-primary, #2563eb);
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-}
-
-.ds-progress__label {
-  margin-top: 7px;
-  font-size: 0.625rem;
-  font-weight: 500;
-  color: var(--color-text-muted, #a0a8b4);
-  text-align: center;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  transition: color 0.25s ease, font-weight 0.25s ease;
-  white-space: nowrap;
-}
-
-.ds-progress__step--in-progress .ds-progress__label {
-  color: var(--color-primary, #2563eb);
-  font-weight: 600;
-}
-
-.ds-progress__step--complete .ds-progress__label {
-  color: var(--color-text-secondary, #52596a);
 }

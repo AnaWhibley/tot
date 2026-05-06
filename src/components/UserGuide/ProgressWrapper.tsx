@@ -7,25 +7,32 @@ interface ProgressWrapperProps {
   currentStep: number;
 }
 
-function stepState(index: number, current: number): StepState {
-  if (index < current) return StepState.Complete;
-  if (index === current) return StepState.InProgress;
-  return StepState.NotStarted;
-}
-
 const ProgressWrapper: React.FC<ProgressWrapperProps> = ({ steps, currentStep }) => {
-  const progressSteps: ProgressStep[] = steps.map((step, i) => ({
-    name: step.id,
-    state: stepState(i, currentStep),
-  }));
+  // Collapse pages that share the same id into one progress node.
+  // The node is InProgress if currentStep falls within its page range,
+  // Complete if past it, NotStarted if before it.
+  type Group = { id: string; name: string; min: number; max: number };
+  const groups: Group[] = [];
+  const seen: Record<string, number> = {};
 
-  return (
-    <Progress
-      numbered
-      progressLabel="Step"
-      steps={progressSteps}
-    />
-  );
+  steps.forEach((step, i) => {
+    if (seen[step.id] === undefined) {
+      seen[step.id] = groups.length;
+      groups.push({ id: step.id, name: step.name, min: i, max: i });
+    } else {
+      groups[seen[step.id]].max = i;
+    }
+  });
+
+  const progressSteps: ProgressStep[] = groups.map(g => {
+    let state: StepState;
+    if (currentStep > g.max) state = StepState.Complete;
+    else if (currentStep >= g.min) state = StepState.InProgress;
+    else state = StepState.NotStarted;
+    return { id: g.id, name: g.name, state };
+  });
+
+  return <Progress numbered steps={progressSteps} />;
 };
 
 export default ProgressWrapper;
