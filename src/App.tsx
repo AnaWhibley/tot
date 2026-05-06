@@ -1,12 +1,12 @@
 import { useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import styles from './App.module.css';
-import UserGuide from './components/UserGuide';
 import NavBar from './components/NavBar/NavBar';
 import type { NavGroup } from './components/NavBar/NavBar';
+import Home from './pages/Home';
+import GuidePage from './pages/GuidePage';
 import { guideA } from './guides/guideA';
 import { guideB } from './guides/guideB';
-
-type ActiveGuide = 'A' | 'B';
 
 /* ── Nav icons ── */
 
@@ -42,25 +42,9 @@ const InvestGroupIcon = () => (
 /* ── App ── */
 
 function App() {
-  const [active, setActive] = useState<ActiveGuide>('A');
   const [completedA, setCompletedA] = useState(false);
   const [completedB, setCompletedB] = useState(false);
   const [navCollapsed, setNavCollapsed] = useState(false);
-
-  const guides = {
-    A: { label: 'Account Onboarding', steps: guideA, completed: completedA },
-    B: { label: 'Portfolio Setup', steps: guideB, completed: completedB },
-  };
-
-  const handleComplete = () => {
-    if (active === 'A') setCompletedA(true);
-    if (active === 'B') setCompletedB(true);
-  };
-
-  const handleRestart = () => {
-    if (active === 'A') setCompletedA(false);
-    if (active === 'B') setCompletedB(false);
-  };
 
   const navGroups: NavGroup[] = [
     {
@@ -68,7 +52,7 @@ function App() {
       label: 'Account',
       icon: <AccountGroupIcon />,
       items: [
-        { id: 'A', label: 'Account Onboarding', icon: <AccountIcon />, completed: completedA },
+        { id: 'account', label: 'Account Onboarding', icon: <AccountIcon />, to: '/account', completed: completedA },
       ],
     },
     {
@@ -76,42 +60,43 @@ function App() {
       label: 'Invest',
       icon: <InvestGroupIcon />,
       items: [
-        { id: 'B', label: 'Portfolio Setup', icon: <InvestIcon />, completed: completedB },
+        { id: 'invest', label: 'Portfolio Setup', icon: <InvestIcon />, to: '/invest', completed: completedB },
       ],
     },
   ];
-
-  const current = guides[active];
 
   return (
     <div className={styles.app}>
       <NavBar
         groups={navGroups}
-        activeId={active}
-        onSelect={id => setActive(id as ActiveGuide)}
         collapsed={navCollapsed}
         onToggleCollapse={() => setNavCollapsed(v => !v)}
       />
 
       <div className={styles.content}>
-        <div className={styles.guideShell}>
-          {current.completed ? (
-            <div className={styles.complete}>
-              <div className={styles.completeIcon}>✓</div>
-              <h2>Guide complete</h2>
-              <p>You finished the <strong>{current.label}</strong> guide.</p>
-              <button className={styles.completeRestart} onClick={handleRestart}>
-                Restart guide
-              </button>
-            </div>
-          ) : (
-            <UserGuide
-              key={active}
-              steps={current.steps}
-              onComplete={handleComplete}
+        <Routes>
+          <Route path="/" element={
+            <Home completedA={completedA} completedB={completedB} />
+          } />
+          <Route path="/account" element={
+            <GuidePage
+              steps={guideA}
+              label="Account Onboarding"
+              completed={completedA}
+              onComplete={() => setCompletedA(true)}
+              onRestart={() => setCompletedA(false)}
             />
-          )}
-        </div>
+          } />
+          <Route path="/invest" element={
+            <GuidePage
+              steps={guideB}
+              label="Portfolio Setup"
+              completed={completedB}
+              onComplete={() => setCompletedB(true)}
+              onRestart={() => setCompletedB(false)}
+            />
+          } />
+        </Routes>
       </div>
     </div>
   );

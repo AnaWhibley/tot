@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { NavLink, Link } from 'react-router-dom';
 import styles from './NavBar.module.css';
 
 export interface NavItem {
   id: string;
   label: string;
   icon: React.ReactNode;
+  to: string;
   completed?: boolean;
 }
 
@@ -17,8 +19,6 @@ export interface NavGroup {
 
 interface NavBarProps {
   groups: NavGroup[];
-  activeId: string;
-  onSelect: (id: string) => void;
   collapsed: boolean;
   onToggleCollapse: () => void;
 }
@@ -45,13 +45,7 @@ const CheckIcon = () => (
 
 /* ── Component ── */
 
-const NavBar: React.FC<NavBarProps> = ({
-  groups,
-  activeId,
-  onSelect,
-  collapsed,
-  onToggleCollapse,
-}) => {
+const NavBar: React.FC<NavBarProps> = ({ groups, collapsed, onToggleCollapse }) => {
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(
     () => Object.fromEntries(groups.map(g => [g.id, true]))
   );
@@ -74,7 +68,9 @@ const NavBar: React.FC<NavBarProps> = ({
         >
           <MenuIcon />
         </button>
-        <span className={`${styles.navSlide} ${styles.title}`}>Guides</span>
+        <Link to="/" className={`${styles.navSlide} ${styles.title}`}>
+          Guides
+        </Link>
       </div>
 
       <div className={styles.divider} />
@@ -82,7 +78,6 @@ const NavBar: React.FC<NavBarProps> = ({
       {/* Groups */}
       {groups.map(group => {
         const isOpen = openGroups[group.id] ?? true;
-        // Items are always visible when the sidebar is collapsed (icon-only mode)
         const bodyOpen = isOpen || collapsed;
 
         return (
@@ -105,28 +100,27 @@ const NavBar: React.FC<NavBarProps> = ({
               aria-hidden={!bodyOpen}
             >
               <div className={styles.groupInner}>
-                {group.items.map(item => {
-                  const active = item.id === activeId;
-                  return (
-                    <button
-                      key={item.id}
-                      className={`${styles.item}${active ? ` ${styles.itemActive}` : ''}`}
-                      onClick={() => onSelect(item.id)}
-                      aria-current={active ? 'page' : undefined}
-                      title={collapsed ? item.label : undefined}
-                    >
-                      <span className={styles.itemIcon}>{item.icon}</span>
-                      <span className={`${styles.navSlide} ${styles.itemLabelRow}`}>
-                        <span className={styles.itemLabel}>{item.label}</span>
-                        {item.completed && (
-                          <span className={styles.badge} aria-label="Completed">
-                            <CheckIcon />
-                          </span>
-                        )}
-                      </span>
-                    </button>
-                  );
-                })}
+                {group.items.map(item => (
+                  <NavLink
+                    key={item.id}
+                    to={item.to}
+                    end
+                    className={({ isActive }) =>
+                      `${styles.item}${isActive ? ` ${styles.itemActive}` : ''}`
+                    }
+                    title={collapsed ? item.label : undefined}
+                  >
+                    <span className={styles.itemIcon}>{item.icon}</span>
+                    <span className={`${styles.navSlide} ${styles.itemLabelRow}`}>
+                      <span className={styles.itemLabel}>{item.label}</span>
+                      {item.completed && (
+                        <span className={styles.badge} aria-label="Completed">
+                          <CheckIcon />
+                        </span>
+                      )}
+                    </span>
+                  </NavLink>
+                ))}
               </div>
             </div>
           </div>

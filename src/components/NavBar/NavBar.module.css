@@ -85,6 +85,7 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-text-muted, #9aa0ae);
+  text-decoration: none;
 }
 
 .divider {
@@ -198,6 +199,7 @@
   font-weight: 450;
   cursor: pointer;
   text-align: left;
+  text-decoration: none;
   transition: background 0.15s ease, color 0.15s ease;
 }
 
